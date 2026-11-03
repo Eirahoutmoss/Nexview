@@ -11,8 +11,8 @@ dotnet publish (Join-Path $Root 'src\NexView.App\NexView.App.csproj') -c Release
   -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true "-p:NexViewEdition=$Edition" -o $Out -v q
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish başarısız" }
 
-[xml]$props = Get-Content (Join-Path $Root 'Directory.Build.props')
-$version = $props.Project.PropertyGroup.Version
+$version = [regex]::Match((Get-Content (Join-Path $Root 'Directory.Build.props') -Raw), '<Version>([^<]+)</Version>').Groups[1].Value
+if (-not $version) { throw "Sürüm numarası Directory.Build.props içinde bulunamadı" }
 
 Write-Host "2/3 Taşınabilir paket..." -ForegroundColor Cyan
 $suffix = if ($Edition) { "-$Edition" } else { "" }
@@ -39,3 +39,14 @@ if ($iscc) {
   Write-Host "Inno Setup bulunamadı; kurulum atlandı (https://jrsoftware.org/isdl.php)." -ForegroundColor Yellow
 }
 Write-Host "Bitti: $Dist" -ForegroundColor Green
+
+# Android APK (Android ortamı kuruluysa: tools\setup-android.ps1)
+if (Test-Path (Join-Path $Root 'android-paths.props')) {
+  Write-Host "Android APK derleniyor..." -ForegroundColor Cyan
+  $apkOut = Join-Path $Dist 'android'
+  dotnet publish (Join-Path $Root 'src\NexView.Android\NexView.Android.csproj') -c Release -f net10.0-android -o $apkOut -v q
+  if ($LASTEXITCODE -eq 0) {
+    Copy-Item (Join-Path $apkOut 'com.hasanguler.nexview-Signed.apk') (Join-Path $Dist "NexView-$version-android.apk") -Force
+    Write-Host "APK: NexView-$version-android.apk" -ForegroundColor Green
+  } else { Write-Host "Android derlemesi başarısız; masaüstü paketleri hazır." -ForegroundColor Yellow }
+}
