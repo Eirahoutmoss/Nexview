@@ -1,0 +1,136 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexView.App.ViewModels"
+             xmlns:c="using:NexView.UI.Controls"
+             xmlns:l="using:NexView.UI.Localization"
+             x:Class="NexView.App.Views.ConvertOptionsView"
+             x:DataType="vm:ConvertViewModel">
+  <StackPanel Spacing="10">
+
+    <!-- Hazır ayarlar -->
+    <Border Classes="card">
+      <StackPanel Spacing="8">
+        <TextBlock Text="{l:T 'Ne için?'}" Classes="h" />
+        <ListBox Classes="chips" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="vm:PresetItem">
+              <TextBlock Text="{Binding Name}" ToolTip.Tip="{Binding Description}" FontSize="12" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Text="{Binding PresetDescription}" Classes="label" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+
+    <!-- Format ve kalite -->
+    <Border Classes="card">
+      <StackPanel Spacing="10">
+        <StackPanel Spacing="4">
+          <TextBlock Text="{l:T 'Hedef format'}" Classes="label" />
+          <ComboBox ItemsSource="{Binding TargetFormats}" SelectedItem="{Binding TargetFormat}" HorizontalAlignment="Stretch">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:FormatItem"><TextBlock Text="{Binding Name}" /></DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+        </StackPanel>
+
+        <StackPanel Spacing="2" IsVisible="{Binding ShowQuality}">
+          <DockPanel>
+            <TextBlock DockPanel.Dock="Right" Text="{Binding QualityText}" Classes="value" />
+            <TextBlock Text="{l:T 'Kalite'}" Classes="label" />
+          </DockPanel>
+          <Slider Minimum="10" Maximum="100" Value="{Binding Quality}" TickFrequency="1" IsSnapToTickEnabled="True" />
+        </StackPanel>
+        <CheckBox Content="{l:T 'Kayıpsız'}" IsChecked="{Binding Lossless}" IsVisible="{Binding ShowLossless}" />
+
+        <StackPanel Spacing="6" IsVisible="{Binding IsPdf}">
+          <TextBlock Text="{l:T 'Sayfa'}" Classes="label" />
+          <RadioButton Content="{l:T 'A4 sayfaya yerleştir (başvurular için)'}" IsChecked="{Binding PdfA4}" />
+          <RadioButton Content="{l:T 'Görüntü boyutunda'}" IsChecked="{Binding PdfImageSize}" />
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    <!-- Boyut -->
+    <Border Classes="card">
+      <StackPanel Spacing="8">
+        <TextBlock Text="{l:T 'Boyut'}" Classes="h" />
+        <Grid ColumnDefinitions="*,8,110">
+          <ComboBox ItemsSource="{Binding ResizeModes}" SelectedItem="{Binding ResizeMode}" HorizontalAlignment="Stretch">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:ResizeItem"><TextBlock Text="{Binding Name}" /></DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+          <NumericUpDown Grid.Column="2" Value="{Binding ResizeValue}" Minimum="1" Maximum="100000" Increment="10"
+                         FormatString="0" ShowButtonSpinner="False" IsVisible="{Binding ShowResizeValue}" />
+        </Grid>
+        <CheckBox Content="{l:T 'Küçült ama büyütme'}" IsChecked="{Binding ShrinkOnly}" IsVisible="{Binding ShowResizeValue}" />
+        <Grid ColumnDefinitions="Auto,8,*,6,Auto">
+          <CheckBox Content="{l:T 'En fazla'}" IsChecked="{Binding UseTargetSize}" ToolTip.Tip="{l:T 'Kaliteyi ve gerekirse boyutu NexView ayarlar.'}" />
+          <NumericUpDown Grid.Column="2" Value="{Binding TargetSizeKb}" Minimum="10" Maximum="1000000" Increment="100"
+                         FormatString="0" ShowButtonSpinner="False" IsEnabled="{Binding UseTargetSize}" />
+          <TextBlock Grid.Column="4" Text="KB" Classes="label" VerticalAlignment="Center" />
+        </Grid>
+      </StackPanel>
+    </Border>
+
+    <!-- Metadata -->
+    <Border Classes="card" IsVisible="{Binding ShowMetadataOptions}">
+      <StackPanel Spacing="6">
+        <TextBlock Text="{l:T 'Metadata ve gizlilik'}" Classes="h" />
+        <RadioButton Content="{l:T 'Koru'}" IsChecked="{Binding MetaKeep}" />
+        <RadioButton Content="{l:T 'Konumu (GPS) kaldır'}" IsChecked="{Binding MetaRemoveGps}" />
+        <RadioButton Content="{l:T 'Tümünü kaldır (konum, cihaz, tarih)'}" IsChecked="{Binding MetaRemoveAll}" />
+      </StackPanel>
+    </Border>
+
+    <!-- Gelişmiş -->
+    <Border Classes="card" IsVisible="{Binding HasAdvanced}">
+      <StackPanel>
+        <ToggleButton x:Name="AdvToggle" Classes="section">
+          <DockPanel>
+            <c:Icon DockPanel.Dock="Right" Data="{StaticResource IcDown}" Width="16" Height="16" Classes="chevron" />
+            <TextBlock Text="{l:T 'Gelişmiş'}" Classes="h" />
+          </DockPanel>
+        </ToggleButton>
+        <StackPanel Spacing="8" Margin="0,8,0,0" IsVisible="{Binding #AdvToggle.IsChecked}">
+          <CheckBox Content="{l:T 'Progresif JPEG'}" IsChecked="{Binding Progressive}" IsVisible="{Binding ShowJpegOptions}" />
+          <CheckBox Content="{l:T 'Tam renk çözünürlüğü (4:4:4)'}" IsChecked="{Binding HighChroma}" IsVisible="{Binding ShowJpegOptions}" />
+          <StackPanel IsVisible="{Binding ShowPngOptions}" Spacing="2">
+            <DockPanel>
+              <TextBlock DockPanel.Dock="Right" Text="{Binding PngCompression}" Classes="value" />
+              <TextBlock Text="{l:T 'PNG sıkıştırma düzeyi'}" Classes="label" />
+            </DockPanel>
+            <Slider Minimum="0" Maximum="9" Value="{Binding PngCompression}" TickFrequency="1" IsSnapToTickEnabled="True" />
+          </StackPanel>
+          <StackPanel IsVisible="{Binding ShowTiffOptions}" Spacing="4">
+            <TextBlock Text="{l:T 'TIFF sıkıştırma'}" Classes="label" />
+            <ComboBox ItemsSource="{Binding TiffCompressions}" SelectedItem="{Binding TiffCompression}" HorizontalAlignment="Stretch">
+              <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:ChoiceItem"><TextBlock Text="{Binding Name}" /></DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+          </StackPanel>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    <!-- Çıktı -->
+    <Border Classes="card">
+      <StackPanel Spacing="6">
+        <TextBlock Text="{l:T 'Kaydedilecek yer'}" Classes="h" />
+        <RadioButton Content="{l:T 'Kaynakla aynı klasör'}" IsChecked="{Binding OutputSource}" />
+        <RadioButton Content="{l:T 'Alt klasör (NexView)'}" IsChecked="{Binding OutputSubfolder}" />
+        <RadioButton Content="{l:T 'Seçilen klasör'}" IsChecked="{Binding OutputCustom}" />
+        <DockPanel IsVisible="{Binding OutputCustom}">
+          <Button DockPanel.Dock="Right" Classes="ghost" Content="{l:T 'Gözat…'}" Command="{Binding BrowseFolderCommand}" Padding="10,4" FontSize="12" />
+          <TextBlock Text="{Binding OutputFolder}" Classes="label" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+        </DockPanel>
+        <TextBlock Text="{l:T 'Orijinal dosya hiçbir zaman değiştirilmez; aynı ad varsa yeni ad verilir.'}" Classes="label" FontSize="11" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

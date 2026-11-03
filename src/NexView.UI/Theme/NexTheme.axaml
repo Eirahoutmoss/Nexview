@@ -1,0 +1,419 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:NexView.UI.Controls">
+  <Styles.Resources>
+    <!-- NexView Dark paleti -->
+    <Color x:Key="NvBg">#060A14</Color>
+    <Color x:Key="NvPanel">#0B1222</Color>
+    <Color x:Key="NvSurface">#101A2E</Color>
+    <Color x:Key="NvSurfaceHi">#16223A</Color>
+    <Color x:Key="NvBorder">#1D2A44</Color>
+    <Color x:Key="NvPrimary">#2D7FFF</Color>
+    <Color x:Key="NvCyan">#22D3EE</Color>
+    <Color x:Key="NvViolet">#8B5CF6</Color>
+    <Color x:Key="NvText">#E8EEF8</Color>
+    <Color x:Key="NvMuted">#8C9CB8</Color>
+    <Color x:Key="NvDim">#5A6A88</Color>
+    <Color x:Key="NvWarn">#FBBF24</Color>
+    <Color x:Key="NvDanger">#F87171</Color>
+
+    <Color x:Key="SystemAccentColor">#2D7FFF</Color>
+    <Color x:Key="SystemAccentColorLight1">#4A93FF</Color>
+    <Color x:Key="SystemAccentColorLight2">#6AA8FF</Color>
+    <Color x:Key="SystemAccentColorLight3">#8DBDFF</Color>
+    <Color x:Key="SystemAccentColorDark1">#2368D6</Color>
+    <Color x:Key="SystemAccentColorDark2">#1B52AA</Color>
+    <Color x:Key="SystemAccentColorDark3">#143D80</Color>
+
+    <SolidColorBrush x:Key="NvBgBrush" Color="{StaticResource NvBg}" />
+    <SolidColorBrush x:Key="NvPanelBrush" Color="{StaticResource NvPanel}" />
+    <SolidColorBrush x:Key="NvSurfaceBrush" Color="{StaticResource NvSurface}" />
+    <SolidColorBrush x:Key="NvSurfaceHiBrush" Color="{StaticResource NvSurfaceHi}" />
+    <SolidColorBrush x:Key="NvBorderBrush" Color="{StaticResource NvBorder}" />
+    <SolidColorBrush x:Key="NvPrimaryBrush" Color="{StaticResource NvPrimary}" />
+    <SolidColorBrush x:Key="NvCyanBrush" Color="{StaticResource NvCyan}" />
+    <SolidColorBrush x:Key="NvVioletBrush" Color="{StaticResource NvViolet}" />
+    <SolidColorBrush x:Key="NvTextBrush" Color="{StaticResource NvText}" />
+    <SolidColorBrush x:Key="NvMutedBrush" Color="{StaticResource NvMuted}" />
+    <SolidColorBrush x:Key="NvDimBrush" Color="{StaticResource NvDim}" />
+    <SolidColorBrush x:Key="NvWarnBrush" Color="{StaticResource NvWarn}" />
+    <SolidColorBrush x:Key="NvDangerBrush" Color="{StaticResource NvDanger}" />
+    <SolidColorBrush x:Key="NvSuccessBrush" Color="#34D399" />
+
+    <LinearGradientBrush x:Key="NvAccentGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+      <GradientStop Offset="0" Color="#22D3EE" />
+      <GradientStop Offset="0.6" Color="#2D7FFF" />
+      <GradientStop Offset="1" Color="#8B5CF6" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="NvWindowGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+      <GradientStop Offset="0" Color="#0A1328" />
+      <GradientStop Offset="0.5" Color="#060A14" />
+      <GradientStop Offset="1" Color="#0B0A20" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="NvSelectedNav" StartPoint="0%,0%" EndPoint="100%,0%">
+      <GradientStop Offset="0" Color="#4D2D7FFF" />
+      <GradientStop Offset="1" Color="#1A2D7FFF" />
+    </LinearGradientBrush>
+
+    <!-- İkonlar: 24x24 çizgi geometrileri -->
+    <StreamGeometry x:Key="IcMenu">M4 6h16M4 12h16M4 18h16</StreamGeometry>
+    <StreamGeometry x:Key="IcOpen">M14 3H6v18h12V7zM14 3v4h4M12 11v6M9 14h6</StreamGeometry>
+    <StreamGeometry x:Key="IcFolder">M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z</StreamGeometry>
+    <StreamGeometry x:Key="IcImages">M4 5h16v14H4zM4 16l5-5 4 4 2-2 5 5M15.5 8.5a1 1 0 1 0 0.01 0</StreamGeometry>
+    <StreamGeometry x:Key="IcStar">M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z</StreamGeometry>
+    <StreamGeometry x:Key="IcClock">M12 3a9 9 0 1 0 0.01 0zM12 7v5l3 2</StreamGeometry>
+    <StreamGeometry x:Key="IcAperture">M12 3a9 9 0 1 0 0.01 0zM14.3 3.3L9 12.5M20.6 9.5H10M18.3 18.2L13 9M9.7 20.7L15 11.5M3.4 14.5H14M5.7 5.8L11 15</StreamGeometry>
+    <StreamGeometry x:Key="IcMonitor">M3 4h18v12H3zM8 20h8M12 16v4</StreamGeometry>
+    <StreamGeometry x:Key="IcConvert">M4 12a8 8 0 0 1 13.7-5.6L20 8.5M20 4v4.5h-4.5M20 12a8 8 0 0 1-13.7 5.6L4 15.5M4 20v-4.5h4.5</StreamGeometry>
+    <StreamGeometry x:Key="IcTrash">M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13</StreamGeometry>
+    <StreamGeometry x:Key="IcLeft">M15 5l-7 7 7 7</StreamGeometry>
+    <StreamGeometry x:Key="IcRight">M9 5l7 7-7 7</StreamGeometry>
+    <StreamGeometry x:Key="IcFit">M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5M9 9h6v6H9z</StreamGeometry>
+    <StreamGeometry x:Key="IcFullscreen">M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5</StreamGeometry>
+    <StreamGeometry x:Key="IcRotateLeft">M4 4v5h5M4.6 9A8 8 0 1 1 6 16.5</StreamGeometry>
+    <StreamGeometry x:Key="IcRotateRight">M20 4v5h-5M19.4 9A8 8 0 1 0 18 16.5</StreamGeometry>
+    <StreamGeometry x:Key="IcFlip">M12 3v18M8 7L3 12l5 5zM16 7l5 5-5 5z</StreamGeometry>
+    <StreamGeometry x:Key="IcCrop">M6 2v14a2 2 0 0 0 2 2h14M18 22V8a2 2 0 0 0-2-2H2</StreamGeometry>
+    <StreamGeometry x:Key="IcInfo">M12 3a9 9 0 1 0 0.01 0zM12 11v6M12 7.5v.5</StreamGeometry>
+    <StreamGeometry x:Key="IcSliders">M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M16 4v4M10 10v4M18 16v4</StreamGeometry>
+    <StreamGeometry x:Key="IcLayers">M12 3l9 5-9 5-9-5zM3 13l9 5 9-5</StreamGeometry>
+    <StreamGeometry x:Key="IcPin">M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 7.5a2.5 2.5 0 1 0 0.01 0z</StreamGeometry>
+    <StreamGeometry x:Key="IcCopy">M9 9h11v11H9zM5 15H4V4h11v1</StreamGeometry>
+    <StreamGeometry x:Key="IcWarning">M12 3L2 20h20zM12 10v4M12 17v.5</StreamGeometry>
+    <StreamGeometry x:Key="IcExternal">M14 4h6v6M20 4l-9 9M18 14v6H4V6h6</StreamGeometry>
+    <StreamGeometry x:Key="IcZoomIn">M11 4a7 7 0 1 0 0.01 0zM20 20l-4-4M8 11h6M11 8v6</StreamGeometry>
+    <StreamGeometry x:Key="IcZoomOut">M11 4a7 7 0 1 0 0.01 0zM20 20l-4-4M8 11h6</StreamGeometry>
+    <StreamGeometry x:Key="IcGrid">M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z</StreamGeometry>
+    <StreamGeometry x:Key="IcFilm">M3 6h18v12H3zM3 10h18M7 6v4M12 6v4M17 6v4</StreamGeometry>
+    <StreamGeometry x:Key="IcBackground">M4 4h16v16H4zM4 12h16M12 4v16M4 4l8 8M12 12l8 8</StreamGeometry>
+    <StreamGeometry x:Key="IcRetry">M4 12a8 8 0 1 0 2.3-5.7L4 8.5M4 4v4.5h4.5</StreamGeometry>
+    <StreamGeometry x:Key="IcDown">M6 9l6 6 6-6</StreamGeometry>
+    <StreamGeometry x:Key="IcPaste">M9 4h6v3H9zM8 5H5v16h14V5h-3M9 13l3 3 3-3M12 9v7</StreamGeometry>
+    <StreamGeometry x:Key="IcSettings">M12 9a3 3 0 1 0 0.01 0zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z</StreamGeometry>
+    <StreamGeometry x:Key="IcPlay">M7 4l13 8-13 8z</StreamGeometry>
+    <StreamGeometry x:Key="IcPause">M7 4h3v16H7zM14 4h3v16h-3z</StreamGeometry>
+    <StreamGeometry x:Key="IcStep">M6 4l10 8-10 8zM18 4v16</StreamGeometry>
+    <StreamGeometry x:Key="IcStretch">M3 20h18M4 19c3 0 4-14 8-14s5 14 8 14M12 5v15</StreamGeometry>
+    <StreamGeometry x:Key="IcCheck">M4 12l5 5L20 6</StreamGeometry>
+    <StreamGeometry x:Key="IcClose">M6 6l12 12M18 6L6 18</StreamGeometry>
+    <StreamGeometry x:Key="IcPen">M4 20l4-1 11-11-3-3L5 16zM14 6l3 3</StreamGeometry>
+    <StreamGeometry x:Key="IcDocument">M6 3h9l4 4v14H6zM15 3v4h4M9 12h7M9 16h7</StreamGeometry>
+    <StreamGeometry x:Key="IcUndo">M9 14L4 9l5-5M4 9h11a5 5 0 0 1 0 10h-3</StreamGeometry>
+    <StreamGeometry x:Key="IcRedo">M15 14l5-5-5-5M20 9H9a5 5 0 0 0 0 10h3</StreamGeometry>
+    <StreamGeometry x:Key="IcSparkle">M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z</StreamGeometry>
+    <StreamGeometry x:Key="IcFlipV">M3 12h18M7 8l5-5 5 5zM7 16l5 5 5-5z</StreamGeometry>
+    <StreamGeometry x:Key="IcKeyboard">M3 6h18v12H3zM7 10h.01M11 10h.01M15 10h.01M7 14h10</StreamGeometry>
+    <StreamGeometry x:Key="IcShare">M18 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8.6 13.5l6.8 4M15.4 6.5l-6.8 4</StreamGeometry>
+    <StreamGeometry x:Key="IcCamera">M3 8h4l2-3h6l2 3h4v11H3zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z</StreamGeometry>
+    <StreamGeometry x:Key="IcSave">M12 3v12M7 10l5 5 5-5M4 19h16</StreamGeometry>
+    <StreamGeometry x:Key="IcTools">M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z</StreamGeometry>
+    <StreamGeometry x:Key="IcShield">M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4</StreamGeometry>
+    <StreamGeometry x:Key="IcMap">M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14</StreamGeometry>
+    <StreamGeometry x:Key="IcActual">M5 5h14v14H5zM9 10l2-1v6M14 10h.01M14 14h.01</StreamGeometry>
+  </Styles.Resources>
+
+  <Style Selector="Window">
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="TextBlock">
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+
+  <Style Selector="CheckBox, RadioButton">
+    <Setter Property="FontSize" Value="12.5" />
+    <Setter Property="MinHeight" Value="26" />
+  </Style>
+  <Style Selector="ComboBox, NumericUpDown">
+    <Setter Property="FontSize" Value="12.5" />
+  </Style>
+
+  <!-- Paneller -->
+  <Style Selector="Border.panel">
+    <Setter Property="Background" Value="#C80B1222" />
+    <Setter Property="BorderBrush" Value="{StaticResource NvBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="14" />
+  </Style>
+  <Style Selector="Border.card">
+    <Setter Property="Background" Value="#B3101A2E" />
+    <Setter Property="BorderBrush" Value="{StaticResource NvBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Padding" Value="14,12" />
+  </Style>
+  <Style Selector="Border.warning">
+    <Setter Property="Background" Value="#26FBBF24" />
+    <Setter Property="BorderBrush" Value="#66FBBF24" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="12,10" />
+  </Style>
+  <Style Selector="Border.badge">
+    <Setter Property="Background" Value="#CC0B1222" />
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="Padding" Value="4,1" />
+  </Style>
+
+  <!-- Metin sınıfları -->
+  <Style Selector="TextBlock.h">
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="TextBlock.caption">
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="LetterSpacing" Value="1" />
+    <Setter Property="Foreground" Value="{StaticResource NvDimBrush}" />
+  </Style>
+  <Style Selector="TextBlock.label">
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+  </Style>
+  <Style Selector="TextBlock.value">
+    <Setter Property="FontSize" Value="12.5" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+  <Style Selector="TextBlock.muted">
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+  </Style>
+
+  <!-- Düğmeler -->
+  <Style Selector="Button">
+    <Setter Property="CornerRadius" Value="8" />
+  </Style>
+  <Style Selector="Button.tool">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="8" />
+    <Setter Property="MinWidth" Value="34" />
+    <Setter Property="Height" Value="34" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.tool:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#1AFFFFFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="Button.tool:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#26FFFFFF" />
+  </Style>
+  <Style Selector="Button.tool.on">
+    <Setter Property="Foreground" Value="{StaticResource NvCyanBrush}" />
+  </Style>
+  <Style Selector="Button.tool.fav">
+    <Setter Property="Foreground" Value="{StaticResource NvWarnBrush}" />
+  </Style>
+
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+    <Setter Property="Foreground" Value="White" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#4A93FF" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.primary:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#332D7FFF" />
+    <Setter Property="Foreground" Value="#80FFFFFF" />
+  </Style>
+  <Style Selector="Button.primary.danger">
+    <Setter Property="Background" Value="#DC2626" />
+  </Style>
+  <Style Selector="Button.ghost">
+    <Setter Property="Background" Value="#14FFFFFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+    <Setter Property="Padding" Value="12,7" />
+    <Setter Property="FontSize" Value="12.5" />
+  </Style>
+
+  <Style Selector="Button.nav">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="Padding" Value="12,9" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+  <Style Selector="Button.nav:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#12FFFFFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="Button.nav.selected">
+    <Setter Property="Background" Value="{StaticResource NvSelectedNav}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.nav.selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource NvSelectedNav}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
+  <Style Selector="Button.tab">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0,0,0,2" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="Padding" Value="10,10" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+    <Setter Property="FontSize" Value="12.5" />
+  </Style>
+  <Style Selector="Button.tab.selected">
+    <Setter Property="BorderBrush" Value="{StaticResource NvCyanBrush}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.tab:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="Button.tab:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource NvDimBrush}" />
+  </Style>
+
+  <!-- Film şeridi -->
+  <Style Selector="ListBox.filmstrip">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="4" />
+  </Style>
+  <Style Selector="ListBox.filmstrip ListBoxItem">
+    <Setter Property="Padding" Value="2" />
+    <Setter Property="Margin" Value="3,0" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+  </Style>
+  <Style Selector="ListBox.filmstrip ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#14FFFFFF" />
+  </Style>
+  <Style Selector="ListBox.filmstrip ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#262D7FFF" />
+    <Setter Property="BorderBrush" Value="{StaticResource NvCyanBrush}" />
+  </Style>
+  <Style Selector="ListBox.filmstrip ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#332D7FFF" />
+    <Setter Property="BorderBrush" Value="{StaticResource NvCyanBrush}" />
+  </Style>
+
+  <!-- Hazır ayar çipleri -->
+  <Style Selector="ListBox.chips">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="ListBox.chips ListBoxItem">
+    <Setter Property="Padding" Value="10,5" />
+    <Setter Property="Margin" Value="0,0,6,6" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Background" Value="#14FFFFFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+    <Setter Property="MinHeight" Value="0" />
+  </Style>
+  <Style Selector="ListBox.chips ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#22FFFFFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="ListBox.chips ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter, ListBox.chips ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+
+  <Style Selector="Border.kbd">
+    <Setter Property="Background" Value="#1FFFFFFF" />
+    <Setter Property="BorderBrush" Value="#33FFFFFF" />
+    <Setter Property="BorderThickness" Value="1,1,1,2" />
+    <Setter Property="CornerRadius" Value="5" />
+    <Setter Property="Padding" Value="6,2" />
+  </Style>
+
+  <!-- Ekran okuyucular için: simge düğmelerinin adı ipucu metninden gelir -->
+  <Style Selector="Button.tool">
+    <Setter Property="AutomationProperties.Name" Value="{ReflectionBinding Path=(ToolTip.Tip), RelativeSource={RelativeSource Self}}" />
+  </Style>
+
+  <!-- Bölümlü araç seçici -->
+  <Style Selector="Button.seg">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Padding" Value="4,8" />
+    <Setter Property="Margin" Value="2,0" />
+    <Setter Property="CornerRadius" Value="10" />
+  </Style>
+  <Style Selector="Button.seg:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#14FFFFFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="Button.seg.selected">
+    <Setter Property="Background" Value="#332D7FFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvCyanBrush}" />
+  </Style>
+  <Style Selector="Button.seg.selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="#332D7FFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvCyanBrush}" />
+  </Style>
+  <Style Selector="Button.mini">
+    <Setter Property="Background" Value="#10FFFFFF" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+    <Setter Property="Padding" Value="8,3" />
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="MinHeight" Value="0" />
+  </Style>
+  <Style Selector="Button.mini.selected">
+    <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="Button.mini.selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+    <Setter Property="Foreground" Value="White" />
+  </Style>
+  <Style Selector="ListBox.swatches">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="ListBox.swatches ListBoxItem">
+    <Setter Property="Padding" Value="3" />
+    <Setter Property="Margin" Value="0,0,4,0" />
+    <Setter Property="CornerRadius" Value="16" />
+    <Setter Property="MinHeight" Value="0" />
+  </Style>
+  <Style Selector="ListBox.swatches ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter, ListBox.swatches ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{StaticResource NvCyanBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <!-- Katlanabilir bölüm başlığı -->
+  <Style Selector="ToggleButton.section">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0,2" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+  </Style>
+  <Style Selector="ToggleButton.section:pointerover /template/ ContentPresenter#PART_ContentPresenter, ToggleButton.section:pressed /template/ ContentPresenter#PART_ContentPresenter, ToggleButton.section:checked /template/ ContentPresenter#PART_ContentPresenter, ToggleButton.section:checked:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{StaticResource NvTextBrush}" />
+  </Style>
+  <Style Selector="ToggleButton.section c|Icon.chevron">
+    <Setter Property="RenderTransform" Value="rotate(0deg)" />
+  </Style>
+  <Style Selector="ToggleButton.section:checked c|Icon.chevron">
+    <Setter Property="RenderTransform" Value="rotate(180deg)" />
+  </Style>
+
+  <!-- Devre dışı (henüz gelmeyen) özellikler: sade görünüm -->
+  <Style Selector="Button.nav:disabled /template/ ContentPresenter#PART_ContentPresenter, Button.tool:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="#3F4D68" />
+  </Style>
+
+  <Style Selector="c|Icon">
+    <Setter Property="Width" Value="18" />
+    <Setter Property="Height" Value="18" />
+  </Style>
+</Styles>

@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>0.7.0</Version>
+    <Authors>Hasan Güler</Authors>
+    <Company>Hasan Güler</Company>
+    <Product>NexView</Product>
+    <Copyright>© 2026 Hasan Güler</Copyright>
+    <NoWarn>$(NoWarn);MVVMTK0045;NU1603;CA1416</NoWarn>
+  </PropertyGroup>
+  <!-- Sürüm (edition): edition.txt dosyası ya da -p:NexViewEdition=AFOT ile seçilir -->
+  <PropertyGroup Condition="'$(NexViewEdition)' == '' And Exists('$(MSBuildThisFileDirectory)edition.txt')">
+    <NexViewEdition>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)edition.txt').Trim())</NexViewEdition>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(NexViewEdition)' == 'AFOT'">
+    <DefineConstants>$(DefineConstants);AFOT_EDITION</DefineConstants>
+  </PropertyGroup>
+</Project>

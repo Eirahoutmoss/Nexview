@@ -1,0 +1,67 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:NexView.UI.Controls"
+        xmlns:l="using:NexView.UI.Localization"
+        xmlns:v="using:NexView.App.Views"
+        x:Class="NexView.App.Views.SetupWindow"
+        x:DataType="v:SetupWindow"
+        Title="NexView Kurulum"
+        Icon="/Assets/nexview.ico"
+        Width="620" Height="560" CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource NvWindowGradient}">
+  <Grid RowDefinitions="Auto,*,Auto" Margin="32,28,32,24">
+    <StackPanel Orientation="Horizontal" Spacing="16">
+      <Image Source="/Assets/nexview-256.png" Width="72" Height="72" />
+      <StackPanel VerticalAlignment="Center" Spacing="4">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="Nex" FontSize="28" FontWeight="Bold" Foreground="White" />
+          <TextBlock Text="View" FontSize="28" FontWeight="Bold" Foreground="{StaticResource NvAccentGradient}" />
+          <TextBlock Text="{Binding VersionText}" FontSize="14" Classes="muted" VerticalAlignment="Bottom" Margin="10,0,0,5" />
+        </StackPanel>
+        <TextBlock Text="{l:T 'Görüntülerin tüm dünyası: aç, incele, düzenle, dönüştür.'}" Classes="muted" />
+      </StackPanel>
+    </StackPanel>
+
+    <!-- Seçenekler -->
+    <StackPanel Grid.Row="1" Spacing="12" Margin="0,24,0,0" IsVisible="{Binding IsOptions}">
+      <Border Classes="card">
+        <StackPanel Spacing="4">
+          <TextBlock Text="{Binding ModeText}" Classes="h" />
+          <TextBlock Text="{Binding InstallDir}" Classes="label" TextWrapping="Wrap" />
+          <TextBlock Text="{l:T 'Yönetici izni gerekmez; yalnızca sizin kullanıcı hesabınıza kurulur.'}" Classes="label" FontSize="11.5" />
+        </StackPanel>
+      </Border>
+      <Border Classes="card">
+        <StackPanel Spacing="6">
+          <CheckBox Content="{l:T 'Desteklenen görüntü dosyalarını NexView ile ilişkilendir'}" IsChecked="{Binding Associate}" />
+          <CheckBox Content="{l:T 'Explorer sağ tık menüsüne NexView ekle'}" IsChecked="{Binding AddContextMenu}" />
+          <CheckBox Content="{l:T 'Masaüstü kısayolu'}" IsChecked="{Binding DesktopShortcut}" />
+          <CheckBox Content="{l:T 'Kurulumdan sonra NexView’i başlat'}" IsChecked="{Binding LaunchAfter}" />
+        </StackPanel>
+      </Border>
+      <TextBlock Text="{l:T 'Kurulumdan sonra NexView’i varsayılan görüntüleyici yapmak için Ayarlar → Windows entegrasyonu → Varsayılan görüntüleyici yap… seçeneğini kullanın.'}"
+                 Classes="label" FontSize="11.5" TextWrapping="Wrap" />
+    </StackPanel>
+
+    <!-- Kuruluyor -->
+    <StackPanel Grid.Row="1" Spacing="14" VerticalAlignment="Center" IsVisible="{Binding IsWorking}">
+      <TextBlock Text="{l:T 'Kuruluyor…'}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center" />
+      <ProgressBar IsIndeterminate="True" Height="4" MinHeight="4" Foreground="{StaticResource NvCyanBrush}" />
+    </StackPanel>
+
+    <!-- Bitti -->
+    <StackPanel Grid.Row="1" Spacing="12" VerticalAlignment="Center" IsVisible="{Binding IsDone}">
+      <c:Icon Data="{StaticResource IcCheck}" Width="48" Height="48" Foreground="{StaticResource NvSuccessBrush}" StrokeThickness="2.2" HorizontalAlignment="Center" />
+      <TextBlock Text="{Binding DoneText}" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+      <TextBlock Text="{l:T 'NexView Başlat menüsünde. Kaldırmak için: Ayarlar → Uygulamalar → NexView.'}" Classes="muted" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+    </StackPanel>
+
+    <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+      <TextBlock Text="© 2026 Hasan Güler · MIT" Classes="label" VerticalAlignment="Center" Margin="0,0,16,0" />
+      <Button Classes="ghost" Content="{l:T 'İptal'}" Click="OnCancel" IsVisible="{Binding IsOptions}" />
+      <Button Classes="primary" Content="{Binding InstallButtonText}" Click="OnInstall" IsVisible="{Binding IsOptions}" />
+      <Button Classes="primary" Content="{l:T 'Bitir'}" Click="OnFinish" IsVisible="{Binding IsDone}" />
+    </StackPanel>
+  </Grid>
+</Window>

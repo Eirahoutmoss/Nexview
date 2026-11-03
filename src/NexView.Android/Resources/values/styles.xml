@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="nv_bg">#060A14</color>
+  <style name="NexViewTheme" parent="@style/Theme.AppCompat.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowBackground">@color/nv_bg</item>
+    <item name="android:statusBarColor">@color/nv_bg</item>
+    <item name="android:navigationBarColor">@color/nv_bg</item>
+    <item name="android:windowLightStatusBar">false</item>
+  </style>
+</resources>

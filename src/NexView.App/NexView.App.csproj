@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>NexView</AssemblyName>
+    <RootNamespace>NexView.App</RootNamespace>
+    <ApplicationIcon>Assets\nexview.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EnableCompressionInSingleFile Condition="'$(PublishSingleFile)' == 'true'">true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.*" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.*" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.*" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.*" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NexView.Core\NexView.Core.csproj" />
+    <ProjectReference Include="..\NexView.UI\NexView.UI.csproj" />
+    <ProjectReference Include="..\NexView.Mobile\NexView.Mobile.csproj" />
+    <ProjectReference Include="..\NexView.Studio\NexView.Studio.csproj" />
+    <ProjectReference Include="..\NexView.Codecs.Magick\NexView.Codecs.Magick.csproj" />
+    <ProjectReference Include="..\NexView.Platform.Windows\NexView.Platform.Windows.csproj" />
+  </ItemGroup>
+</Project>

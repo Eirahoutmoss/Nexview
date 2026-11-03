@@ -1,0 +1,632 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexView.Mobile.ViewModels"
+             xmlns:c="using:NexView.UI.Controls"
+             xmlns:l="using:NexView.UI.Localization"
+             x:Class="NexView.Mobile.Views.MobileView"
+             x:DataType="vm:MobileViewModel"
+             Background="{StaticResource NvBgBrush}">
+  <UserControl.Resources>
+    <DataTemplate x:Key="ChipT" x:DataType="vm:Choice">
+      <Button Classes="chip" Classes.on="{Binding IsOn}" Content="{Binding Label}" Command="{Binding PickCommand}" />
+    </DataTemplate>
+    <ItemsPanelTemplate x:Key="WrapP"><WrapPanel /></ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="RowP"><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate>
+  </UserControl.Resources>
+  <UserControl.Styles>
+    <Style Selector="TextBlock.title">
+      <Setter Property="FontSize" Value="20" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.section">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+      <Setter Property="Margin" Value="2,14,0,8" />
+    </Style>
+    <Style Selector="Button.chip">
+      <Setter Property="Background" Value="{StaticResource NvSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource NvBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="18" />
+      <Setter Property="Padding" Value="14,8" />
+      <Setter Property="Margin" Value="0,0,8,8" />
+      <Setter Property="MinHeight" Value="38" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="Button.chip.on">
+      <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource NvPrimaryBrush}" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.chip.on:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.navb">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{StaticResource NvMutedBrush}" />
+      <Setter Property="Padding" Value="0,8" />
+    </Style>
+    <Style Selector="Button.navb.on">
+      <Setter Property="Foreground" Value="{StaticResource NvCyanBrush}" />
+    </Style>
+    <Style Selector="Button.navb TextBlock">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{Binding $parent[Button].Foreground}" />
+    </Style>
+    <Style Selector="Button.act">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="0,8" />
+    </Style>
+    <Style Selector="Button.act TextBlock">
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.act c|Icon, Button.navb c|Icon">
+      <Setter Property="Width" Value="22" />
+      <Setter Property="Height" Value="22" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+    <Style Selector="Button.card">
+      <Setter Property="Background" Value="{StaticResource NvSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource NvBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="14" />
+      <Setter Property="Padding" Value="16,14" />
+      <Setter Property="Margin" Value="0,0,0,10" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+    <Style Selector="Button.card c|Icon">
+      <Setter Property="Width" Value="26" />
+      <Setter Property="Height" Value="26" />
+      <Setter Property="Foreground" Value="{StaticResource NvCyanBrush}" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Button.big">
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="16,14" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="FontSize" Value="15" />
+    </Style>
+    <Style Selector="Border.sheet">
+      <Setter Property="Background" Value="{StaticResource NvPanelBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource NvBorderBrush}" />
+      <Setter Property="BorderThickness" Value="0,1,0,0" />
+      <Setter Property="CornerRadius" Value="18,18,0,0" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+    <Style Selector="Border.bar">
+      <Setter Property="Background" Value="#CC060A14" />
+    </Style>
+    <Style Selector="Button.icon">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="10" />
+      <Setter Property="MinWidth" Value="44" />
+      <Setter Property="MinHeight" Value="44" />
+    </Style>
+    <Style Selector="Button.icon:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.icon:disabled c|Icon">
+      <Setter Property="Opacity" Value="0.35" />
+    </Style>
+    <Style Selector="ToggleButton.chip">
+      <Setter Property="Background" Value="{StaticResource NvSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource NvBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="ToggleButton.chip:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource NvPrimaryBrush}" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.icon.on c|Icon">
+      <Setter Property="Foreground" Value="{StaticResource NvCyanBrush}" />
+    </Style>
+    <Style Selector="Button.icon c|Icon">
+      <Setter Property="Width" Value="22" />
+      <Setter Property="Height" Value="22" />
+    </Style>
+  </UserControl.Styles>
+
+  <Panel x:Name="Root">
+    <!-- ============ Ana sayfalar ============ -->
+    <Grid RowDefinitions="Auto,*,Auto">
+      <!-- Üst çubuk -->
+      <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="14,10,8,6" MinHeight="44">
+        <StackPanel Orientation="Horizontal" Spacing="10" IsVisible="{Binding !IsSelectMode}" VerticalAlignment="Center">
+          <Image Source="avares://NexView.UI/Assets/nexview-mark.png" Width="30" Height="30" />
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock Classes="title" Text="NexView" />
+            <TextBlock Text="{Binding EditionLabel}" IsVisible="{Binding HasEdition}" FontSize="10" Foreground="{StaticResource NvCyanBrush}" />
+          </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="4" IsVisible="{Binding IsSelectMode}" VerticalAlignment="Center">
+          <Button Classes="icon" Command="{Binding ToggleSelectModeCommand}"><c:Icon Data="{StaticResource IcClose}" /></Button>
+          <TextBlock Classes="title" VerticalAlignment="Center" Text="{Binding SelectedCount, StringFormat='{}{0}'}" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" IsVisible="{Binding IsGallery}">
+          <Button Classes="icon" Command="{Binding SelectAllCommand}" IsVisible="{Binding IsSelectMode}" ToolTip.Tip="{l:T 'Tümünü seç'}"><c:Icon Data="{StaticResource IcCheck}" /></Button>
+          <Button Classes="icon" Command="{Binding RemoveSelectedCommand}" IsVisible="{Binding IsSelectMode}" ToolTip.Tip="{l:T 'Listeden kaldır'}"><c:Icon Data="{StaticResource IcTrash}" /></Button>
+          <Button Classes="icon" Command="{Binding ToggleSelectModeCommand}" IsVisible="{Binding !IsSelectMode}" IsEnabled="{Binding HasItems}">
+            <TextBlock Text="{l:T 'Seç'}" FontSize="15" />
+          </Button>
+        </StackPanel>
+      </Grid>
+
+      <!-- Galeri -->
+      <Panel Grid.Row="1" IsVisible="{Binding IsGallery}">
+        <ScrollViewer IsVisible="{Binding !HasItems}">
+          <StackPanel Margin="24,30,24,24" Spacing="12" VerticalAlignment="Center">
+            <Image Source="avares://NexView.UI/Assets/nexview-256.png" Width="120" Height="120" Margin="0,0,0,8" />
+            <TextBlock Text="{l:T 'Görüntülerin tüm dünyası'}" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+            <TextBlock Text="{l:T 'Fotoğraflarını aç, incele, dönüştür, küçült, temizle ve paylaş. HEIC, RAW, WebP, AVIF ve daha fazlası.'}"
+                       Foreground="{StaticResource NvMutedBrush}" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,14" />
+            <Button Classes="primary big" Command="{Binding PickPhotosCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="10"><c:Icon Data="{StaticResource IcImages}" /><TextBlock Text="{l:T 'Fotoğraf seç'}" /></StackPanel>
+            </Button>
+            <Button Classes="big" Command="{Binding PickFolderCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="10"><c:Icon Data="{StaticResource IcFolder}" /><TextBlock Text="{l:T 'Klasör aç'}" /></StackPanel>
+            </Button>
+            <Button Classes="big" Command="{Binding CaptureCommand}" IsVisible="{Binding CanCapture}">
+              <StackPanel Orientation="Horizontal" Spacing="10"><c:Icon Data="{StaticResource IcCamera}" /><TextBlock Text="{l:T 'Fotoğraf çek'}" /></StackPanel>
+            </Button>
+            <TextBlock Text="{l:T 'İpucu: Galeri ya da başka bir uygulamadan Paylaş → NexView ile de görüntü gönderebilirsin.'}"
+                       Foreground="{StaticResource NvDimBrush}" FontSize="12" TextAlignment="Center" TextWrapping="Wrap" Margin="0,10,0,0" />
+          </StackPanel>
+        </ScrollViewer>
+
+        <Grid RowDefinitions="Auto,*,Auto" IsVisible="{Binding HasItems}">
+          <TextBlock Margin="16,0,16,6" Text="{Binding ItemCountText}" Foreground="{StaticResource NvMutedBrush}" FontSize="12" />
+          <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Items}" Margin="6,0,6,90">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate><UniformGrid Columns="3" /></ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:MobileItem">
+                  <Button Padding="0" Margin="2" CornerRadius="6" Height="124" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                          Background="{StaticResource NvSurfaceBrush}" Click="OnItemClick" Holding="OnItemHolding"
+                          AttachedToVisualTree="OnItemAttached">
+                    <Panel>
+                      <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                      <TextBlock Text="{Binding Badge}" IsVisible="{Binding Thumbnail, Converter={x:Static ObjectConverters.IsNull}}"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource NvMutedBrush}" />
+                      <Border Classes="badge" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4" Background="#AA060A14" Padding="4,1" CornerRadius="4">
+                        <TextBlock Text="{Binding Badge}" FontSize="9" />
+                      </Border>
+                      <Border IsVisible="{Binding IsSelected}" BorderBrush="{StaticResource NvCyanBrush}" BorderThickness="3" CornerRadius="6" Background="#332D7FFF">
+                        <Border Width="24" Height="24" CornerRadius="12" Background="{StaticResource NvPrimaryBrush}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="6">
+                          <c:Icon Data="{StaticResource IcCheck}" Width="14" Height="14" Foreground="White" />
+                        </Border>
+                      </Border>
+                    </Panel>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+          <!-- Galeri eylem çubuğu -->
+          <Border Grid.Row="1" VerticalAlignment="Bottom" Margin="12,0,12,10" CornerRadius="16" Background="{StaticResource NvSurfaceHiBrush}"
+                  BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="1" BoxShadow="0 4 18 0 #80000000">
+            <UniformGrid Columns="5" Margin="2,4">
+              <Button Classes="act" Command="{Binding PickPhotosCommand}"><StackPanel><c:Icon Data="{StaticResource IcImages}" /><TextBlock Text="{l:T 'Ekle'}" /></StackPanel></Button>
+              <Button Classes="act" Command="{Binding OpenConvertCommand}"><StackPanel><c:Icon Data="{StaticResource IcConvert}" /><TextBlock Text="{l:T 'Dönüştür'}" /></StackPanel></Button>
+              <Button Classes="act" Command="{Binding ShareCleanCommand}"><StackPanel><c:Icon Data="{StaticResource IcShield}" /><TextBlock Text="{l:T 'Temiz paylaş'}" /></StackPanel></Button>
+              <Button Classes="act" Command="{Binding MakePdfCommand}"><StackPanel><c:Icon Data="{StaticResource IcDocument}" /><TextBlock Text="PDF" /></StackPanel></Button>
+              <Button Classes="act" Command="{Binding ShareOriginalCommand}"><StackPanel><c:Icon Data="{StaticResource IcShare}" /><TextBlock Text="{l:T 'Paylaş'}" /></StackPanel></Button>
+            </UniformGrid>
+          </Border>
+          <TextBlock Grid.Row="2" Margin="16,0,16,4" FontSize="11" Foreground="{StaticResource NvDimBrush}" TextWrapping="Wrap"
+                     Text="{l:T 'Seçim yoksa işlemler tüm görüntülere uygulanır. Seçmek için basılı tutun.'}" />
+        </Grid>
+      </Panel>
+
+      <!-- Araçlar -->
+      <ScrollViewer Grid.Row="1" IsVisible="{Binding IsTools}">
+        <StackPanel Margin="14,4,14,20">
+          <TextBlock Classes="section" Text="{l:T 'HIZLI İŞLEMLER'}" />
+          <Button Classes="card" Command="{Binding ScanDocumentCommand}" IsVisible="{Binding CanScan}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcCamera}" />
+              <StackPanel Grid.Column="1"><TextBlock Text="{l:T 'Belge tara'}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="muted" TextWrapping="Wrap" Text="{l:T 'Kamerayla çek; kenarlar bulunur, perspektif düzeltilir ve okunaklı hale getirilir.'}" /></StackPanel></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding ShareCleanCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcShield}" />
+              <StackPanel Grid.Column="1"><TextBlock Text="{l:T 'Paylaşmaya hazırla'}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="muted" TextWrapping="Wrap" Text="{l:T 'Konum ve cihaz bilgisini siler, 2048 px JPEG yapar ve paylaşır.'}" /></StackPanel></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding OfficialDocCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcDocument}" />
+              <StackPanel Grid.Column="1"><TextBlock Text="{l:T 'Resmi belge (en fazla 1 MB)'}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="muted" TextWrapping="Wrap" Text="{l:T 'e-Devlet ve kurum başvuruları için küçültür, metadata temizler, galeriye kaydeder.'}" /></StackPanel></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding EmailReadyCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcShare}" />
+              <StackPanel Grid.Column="1"><TextBlock Text="{l:T 'E-posta için küçült'}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="muted" TextWrapping="Wrap" Text="{l:T 'Dosya başına en fazla 500 KB, uzun kenar 1600 px.'}" /></StackPanel></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding RemoveLocationCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcMap}" />
+              <StackPanel Grid.Column="1"><TextBlock Text="{l:T 'Konum bilgisini sil'}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="muted" TextWrapping="Wrap" Text="{l:T 'Format ve kalite korunur, yalnızca GPS etiketleri silinir.'}" /></StackPanel></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding MakePdfCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcLayers}" />
+              <StackPanel Grid.Column="1"><TextBlock Text="{l:T 'Görüntülerden PDF oluştur'}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="muted" TextWrapping="Wrap" Text="{l:T 'Seçili görüntüleri sırayla A4 sayfalara yerleştirir, İndirilenler klasörüne kaydeder.'}" /></StackPanel></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding OpenConvertCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcConvert}" />
+              <StackPanel Grid.Column="1"><TextBlock Text="{l:T 'Toplu dönüştür'}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="muted" TextWrapping="Wrap" Text="{l:T 'Format, kalite, boyut, metadata ve dosya sınırı seçerek dönüştürün.'}" /></StackPanel></Grid>
+          </Button>
+          <TextBlock Classes="section" Text="{l:T 'İÇE AKTAR'}" />
+          <Button Classes="card" Command="{Binding PickPhotosCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcImages}" />
+              <TextBlock Grid.Column="1" Text="{l:T 'Fotoğraf seç'}" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" /></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding PickFolderCommand}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcFolder}" />
+              <TextBlock Grid.Column="1" Text="{l:T 'Klasör aç'}" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" /></Grid>
+          </Button>
+          <Button Classes="card" Command="{Binding CaptureCommand}" IsVisible="{Binding CanCapture}">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14"><c:Icon Data="{StaticResource IcCamera}" />
+              <TextBlock Grid.Column="1" Text="{l:T 'Fotoğraf çek'}" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" /></Grid>
+          </Button>
+          <TextBlock Classes="section" Text="{l:T 'DESTEKLENEN FORMATLAR'}" />
+          <Border Classes="card">
+            <StackPanel Spacing="6">
+              <TextBlock Classes="label" Text="{l:T 'Okuma'}" />
+              <TextBlock Text="{Binding ReadableFormatsText}" TextWrapping="Wrap" FontSize="12" />
+              <TextBlock Classes="label" Text="{l:T 'Yazma'}" Margin="0,6,0,0" />
+              <TextBlock Text="{Binding WritableFormatsText}" TextWrapping="Wrap" FontSize="12" />
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+
+      <!-- Ayarlar -->
+      <ScrollViewer Grid.Row="1" IsVisible="{Binding IsSettings}">
+        <StackPanel Margin="14,4,14,20">
+          <TextBlock Classes="section" Text="{l:T 'DİL'}" />
+          <ItemsControl ItemsSource="{Binding Language.Items}">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:Choice">
+                <Button Classes="chip" Classes.on="{Binding IsOn}" Content="{Binding Label}" Command="{Binding PickCommand}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <TextBlock Classes="section" Text="{l:T 'DEPOLAMA'}" />
+          <Border Classes="card">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel>
+                <TextBlock Text="{l:T 'Önbellek'}" FontWeight="SemiBold" />
+                <TextBlock Classes="muted" Text="{Binding CacheText}" />
+              </StackPanel>
+              <Button Grid.Column="1" Content="{l:T 'Temizle'}" Command="{Binding ClearCacheCommand}" VerticalAlignment="Center" />
+            </Grid>
+          </Border>
+          <TextBlock Classes="muted" TextWrapping="Wrap" FontSize="12" Margin="2,0"
+                     Text="{l:T 'Kaydedilen görüntüler Resimler/NexView, PDF dosyaları İndirilenler/NexView klasörüne yazılır.'}" />
+          <TextBlock Classes="section" Text="{l:T 'HAKKINDA'}" />
+          <Border Classes="card">
+            <StackPanel Spacing="6">
+              <StackPanel Orientation="Horizontal" Spacing="12">
+                <Image Source="avares://NexView.UI/Assets/nexview-mark.png" Width="40" Height="40" />
+                <StackPanel VerticalAlignment="Center">
+                  <TextBlock Text="{Binding VersionText}" FontWeight="SemiBold" />
+                  <TextBlock Classes="muted" Text="{l:T 'Evrensel görüntü görüntüleyici ve dönüştürücü'}" TextWrapping="Wrap" />
+                </StackPanel>
+              </StackPanel>
+              <TextBlock Text="{Binding EditionLabel}" IsVisible="{Binding HasEdition}" Foreground="{StaticResource NvCyanBrush}" TextWrapping="Wrap" />
+              <TextBlock Classes="muted" Text="© Hasan Güler · MIT" />
+              <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,6,0,0">
+                <Button Content="{l:T 'Güncellemeleri denetle'}" Command="{Binding CheckUpdatesCommand}" />
+                <Button Classes="primary" Content="{l:T 'İndir ve kur'}" Command="{Binding InstallUpdateCommand}" IsVisible="{Binding UpdateAvailable}" />
+              </StackPanel>
+              <TextBlock Classes="muted" Text="{Binding UpdateStatus}" TextWrapping="Wrap" FontSize="12" />
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+
+      <!-- Alt gezinme -->
+      <Border Grid.Row="2" Background="{StaticResource NvPanelBrush}" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="0,1,0,0">
+        <UniformGrid Columns="3">
+          <Button Classes="navb" Classes.on="{Binding IsGallery}" Command="{Binding ShowGalleryCommand}">
+            <StackPanel><c:Icon Data="{StaticResource IcGrid}" /><TextBlock Text="{l:T 'Galeri'}" /></StackPanel></Button>
+          <Button Classes="navb" Classes.on="{Binding IsTools}" Command="{Binding ShowToolsCommand}">
+            <StackPanel><c:Icon Data="{StaticResource IcTools}" /><TextBlock Text="{l:T 'Araçlar'}" /></StackPanel></Button>
+          <Button Classes="navb" Classes.on="{Binding IsSettings}" Command="{Binding ShowSettingsCommand}">
+            <StackPanel><c:Icon Data="{StaticResource IcSettings}" /><TextBlock Text="{l:T 'Ayarlar'}" /></StackPanel></Button>
+        </UniformGrid>
+      </Border>
+    </Grid>
+
+    <!-- ============ Görüntüleyici ============ -->
+    <Panel IsVisible="{Binding IsViewerOpen}" Background="Black">
+      <c:ImageViewport x:Name="Viewport" Source="{Binding CurrentBitmap}" OriginalSize="{Binding OriginalSize}"
+                       Rotation="{Binding Rotation}" BackgroundMode="Black" />
+      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" VerticalAlignment="Top" Margin="0,56,0,0" Height="3" MinHeight="3" />
+      <StackPanel IsVisible="{Binding LoadError, Converter={x:Static ObjectConverters.IsNotNull}}" VerticalAlignment="Center" Margin="30" Spacing="10">
+        <c:Icon Data="{StaticResource IcWarning}" Width="40" Height="40" Foreground="{StaticResource NvWarnBrush}" HorizontalAlignment="Center" />
+        <TextBlock Text="{Binding LoadError}" TextWrapping="Wrap" TextAlignment="Center" />
+      </StackPanel>
+      <!-- Üst -->
+      <Border Classes="bar" VerticalAlignment="Top" IsVisible="{Binding IsChromeVisible}">
+        <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" Margin="4,4">
+          <Button Classes="icon" Command="{Binding CloseViewerCommand}"><c:Icon Data="{StaticResource IcLeft}" /></Button>
+          <Button Grid.Column="4" Classes="icon" Command="{Binding DocumentCurrentCommand}" IsVisible="{Binding CanEdit}" ToolTip.Tip="{l:T 'Belge düzelt'}"><c:Icon Data="{StaticResource IcDocument}" /></Button>
+          <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="4,0">
+            <TextBlock Text="{Binding Current.DisplayName, FallbackValue=''}" TextTrimming="CharacterEllipsis" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding PositionText}" FontSize="11" Foreground="{StaticResource NvMutedBrush}" />
+          </StackPanel>
+          <Button Grid.Column="2" Classes="icon" Command="{Binding RotateCommand}"><c:Icon Data="{StaticResource IcRotateRight}" /></Button>
+          <Button Grid.Column="3" Classes="icon" Command="{Binding ShowInfoCommand}"><c:Icon Data="{StaticResource IcInfo}" /></Button>
+        </Grid>
+      </Border>
+      <!-- Alt -->
+      <Border Classes="bar" VerticalAlignment="Bottom" IsVisible="{Binding IsChromeVisible}">
+        <UniformGrid Columns="5" Margin="0,4,0,6">
+          <Button Classes="act" Command="{Binding OpenConvertCommand}"><StackPanel><c:Icon Data="{StaticResource IcConvert}" /><TextBlock Text="{l:T 'Dönüştür'}" /></StackPanel></Button>
+          <Button Classes="act" Command="{Binding ShareCleanCommand}"><StackPanel><c:Icon Data="{StaticResource IcShield}" /><TextBlock Text="{l:T 'Temiz paylaş'}" /></StackPanel></Button>
+          <Button Classes="act" Command="{Binding EditCurrentCommand}" IsEnabled="{Binding CanEdit}"><StackPanel><c:Icon Data="{StaticResource IcSliders}" /><TextBlock Text="{l:T 'Düzenle'}" /></StackPanel></Button>
+          <Button Classes="act" Command="{Binding MakePdfCommand}"><StackPanel><c:Icon Data="{StaticResource IcLayers}" /><TextBlock Text="PDF" /></StackPanel></Button>
+          <Button Classes="act" Command="{Binding ShareOriginalCommand}"><StackPanel><c:Icon Data="{StaticResource IcShare}" /><TextBlock Text="{l:T 'Paylaş'}" /></StackPanel></Button>
+        </UniformGrid>
+      </Border>
+    </Panel>
+
+    <!-- ============ Bilgi sayfası ============ -->
+    <Border Classes="sheet" IsVisible="{Binding IsInfoOpen}" MaxHeight="520">
+      <Grid RowDefinitions="Auto,*,Auto">
+        <Grid ColumnDefinitions="*,Auto" Margin="18,12,8,4">
+          <TextBlock Classes="title" Text="{l:T 'Bilgi'}" VerticalAlignment="Center" />
+          <Button Grid.Column="1" Classes="icon" Command="{Binding ShowInfoCommand}"><c:Icon Data="{StaticResource IcClose}" /></Button>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+          <ItemsControl ItemsSource="{Binding Info}" Margin="18,0,18,8">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:InfoLine">
+                <Grid ColumnDefinitions="120,*" Margin="0,5">
+                  <TextBlock Text="{Binding Label}" Foreground="{StaticResource NvMutedBrush}" FontSize="13" />
+                  <TextBlock Grid.Column="1" Text="{Binding Value}" TextWrapping="Wrap" FontSize="13" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+        <Button Grid.Row="2" Classes="big" Margin="18,4,18,16" Command="{Binding OpenMapCommand}" IsVisible="{Binding HasLocation}">
+          <StackPanel Orientation="Horizontal" Spacing="10"><c:Icon Data="{StaticResource IcMap}" /><TextBlock Text="{l:T 'Haritada aç'}" /></StackPanel>
+        </Button>
+      </Grid>
+    </Border>
+
+    <!-- ============ Dönüştürme sayfası ============ -->
+    <Panel IsVisible="{Binding IsConvertOpen}">
+      <Border Background="#99000000" PointerPressed="OnScrimPressed" />
+      <Border Classes="sheet" MaxHeight="{Binding $parent[Panel].Bounds.Height}">
+        <Grid RowDefinitions="Auto,*,Auto">
+          <Grid ColumnDefinitions="*,Auto" Margin="18,12,8,0">
+            <StackPanel>
+              <TextBlock Classes="title" Text="{l:T 'Dönüştür'}" />
+              <TextBlock Classes="muted" Text="{Binding ConvertTitle}" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+            <Button Grid.Column="1" Classes="icon" Command="{Binding CloseConvertCommand}" VerticalAlignment="Top"><c:Icon Data="{StaticResource IcClose}" /></Button>
+          </Grid>
+          <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="18,0,10,8">
+              <TextBlock Classes="section" Text="{l:T 'HAZIR AYAR'}" />
+              <ItemsControl ItemsSource="{Binding Convert.Preset.Items}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:Choice"><Button Classes="chip" Classes.on="{Binding IsOn}" Content="{Binding Label}" Command="{Binding PickCommand}" /></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="{Binding Convert.PresetDescription}" Classes="muted" TextWrapping="Wrap" FontSize="12" Margin="2,0,8,0" />
+              <TextBlock Classes="section" Text="{l:T 'FORMAT'}" />
+              <ItemsControl ItemsSource="{Binding Convert.Format.Items}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:Choice"><Button Classes="chip" Classes.on="{Binding IsOn}" Content="{Binding Label}" Command="{Binding PickCommand}" /></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <StackPanel IsVisible="{Binding Convert.ShowQuality}">
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Classes="section" Text="{l:T 'KALİTE'}" />
+                  <TextBlock Grid.Column="1" Text="{Binding Convert.Quality}" VerticalAlignment="Bottom" Margin="0,0,8,8" FontWeight="SemiBold" />
+                </Grid>
+                <Slider Minimum="10" Maximum="100" Value="{Binding Convert.Quality}" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,8,0" />
+              </StackPanel>
+              <TextBlock Classes="section" Text="{l:T 'UZUN KENAR (PX)'}" />
+              <ItemsControl ItemsSource="{Binding Convert.Size.Items}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:Choice"><Button Classes="chip" Classes.on="{Binding IsOn}" Content="{Binding Label}" Command="{Binding PickCommand}" /></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Classes="section" Text="{l:T 'METADATA'}" />
+              <ItemsControl ItemsSource="{Binding Convert.Meta.Items}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:Choice"><Button Classes="chip" Classes.on="{Binding IsOn}" Content="{Binding Label}" Command="{Binding PickCommand}" /></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Classes="section" Text="{l:T 'DOSYA BOYUTU SINIRI'}" />
+              <ItemsControl ItemsSource="{Binding Convert.Limit.Items}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="vm:Choice"><Button Classes="chip" Classes.on="{Binding IsOn}" Content="{Binding Label}" Command="{Binding PickCommand}" /></DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </ScrollViewer>
+          <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="10" Margin="18,8,18,16">
+            <Button Classes="big" Command="{Binding ConvertShareCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="8"><c:Icon Data="{StaticResource IcShare}" /><TextBlock Text="{l:T 'Paylaş'}" /></StackPanel>
+            </Button>
+            <Button Grid.Column="1" Classes="primary big" Command="{Binding ConvertSaveCommand}">
+              <StackPanel Orientation="Horizontal" Spacing="8"><c:Icon Data="{StaticResource IcSave}" /><TextBlock Text="{l:T 'Kaydet'}" /></StackPanel>
+            </Button>
+          </Grid>
+        </Grid>
+      </Border>
+    </Panel>
+
+    <!-- ============ Düzenleyici ============ -->
+    <Panel IsVisible="{Binding IsEditorOpen}" Background="Black">
+      <Panel DataContext="{Binding Edit}">
+        <Grid x:DataType="vm:MobileEditViewModel" RowDefinitions="Auto,*,Auto,Auto">
+          <!-- Üst çubuk -->
+          <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto,Auto" Margin="4,4" Background="{StaticResource NvBgBrush}">
+            <Button Classes="icon" Command="{Binding CancelCommand}"><c:Icon Data="{StaticResource IcClose}" /></Button>
+            <TextBlock Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontWeight="SemiBold" Margin="4,0" />
+            <Button Grid.Column="2" Classes="icon" Command="{Binding UndoCommand}" IsEnabled="{Binding CanUndo}"><c:Icon Data="{StaticResource IcUndo}" /></Button>
+            <Button Grid.Column="3" Classes="icon" Command="{Binding RedoCommand}" IsEnabled="{Binding CanRedo}"><c:Icon Data="{StaticResource IcRedo}" /></Button>
+            <Button Grid.Column="4" Classes="icon" Classes.on="{Binding IsSplit}" Command="{Binding ToggleCompareCommand}" ToolTip.Tip="{l:T 'Önce / sonra'}"><c:Icon Data="{StaticResource IcFlip}" /></Button>
+            <Button Grid.Column="5" Classes="icon" Command="{Binding SaveShareCommand}" ToolTip.Tip="{l:T 'Kaydet ve paylaş'}"><c:Icon Data="{StaticResource IcShare}" /></Button>
+            <Button Grid.Column="6" Classes="icon" Command="{Binding SaveCommand}" ToolTip.Tip="{l:T 'Kaydet'}"><c:Icon Data="{StaticResource IcCheck}" Foreground="{StaticResource NvCyanBrush}" /></Button>
+          </Grid>
+          <!-- Önizleme + kaplama -->
+          <Panel Grid.Row="1" ClipToBounds="True">
+            <c:ImageViewport x:Name="EditViewport" Source="{Binding Preview}" CompareSource="{Binding CompareBitmap}"
+                             SplitPosition="{Binding SplitPosition}" BackgroundMode="Black" />
+            <c:EditOverlay x:Name="EditOverlay" HandleRadius="26" IsHitTestVisible="{Binding OverlayActive}" />
+            <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsBusy}" VerticalAlignment="Top" Height="3" MinHeight="3" />
+          </Panel>
+          <!-- Araç paneli -->
+          <Border Grid.Row="2" Background="{StaticResource NvPanelBrush}" Padding="14,10,14,4">
+            <Panel>
+              <!-- Ayarla -->
+              <StackPanel IsVisible="{Binding IsAdjust}" Spacing="6">
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                  <ItemsControl ItemsSource="{Binding Param.Items}" ItemTemplate="{StaticResource ChipT}" ItemsPanel="{StaticResource RowP}" />
+                </ScrollViewer>
+                <Grid ColumnDefinitions="*,Auto">
+                  <Slider Minimum="{Binding AdjustMin}" Maximum="{Binding AdjustMax}" Value="{Binding AdjustValue}" />
+                  <TextBlock Grid.Column="1" Text="{Binding AdjustText}" MinWidth="64" TextAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" />
+                </Grid>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                  <Button Classes="chip" Content="{l:T 'Otomatik'}" Command="{Binding AutoCommand}" />
+                  <ToggleButton Classes="chip" Content="{l:T 'Siyah-beyaz'}" IsChecked="{Binding Grayscale}" Padding="14,8" CornerRadius="18" MinHeight="38" Margin="0,0,8,8" />
+                  <Button Classes="chip" Content="{l:T 'Sıfırla'}" Command="{Binding ResetToneCommand}" />
+                </StackPanel>
+              </StackPanel>
+              <!-- Kırp -->
+              <StackPanel IsVisible="{Binding IsCrop}" Spacing="6">
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                  <ItemsControl ItemsSource="{Binding Aspect.Items}" ItemTemplate="{StaticResource ChipT}" ItemsPanel="{StaticResource RowP}" />
+                </ScrollViewer>
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                  <TextBlock Text="{l:T 'Düzelt'}" VerticalAlignment="Center" Foreground="{StaticResource NvMutedBrush}" />
+                  <Slider Grid.Column="1" Minimum="-45" Maximum="45" Value="{Binding Straighten}" />
+                  <TextBlock Grid.Column="2" Text="{Binding Straighten, StringFormat='{}{0:0.0}°'}" MinWidth="48" TextAlignment="Right" VerticalAlignment="Center" />
+                </Grid>
+                <UniformGrid Columns="5">
+                  <Button Classes="act" Command="{Binding RotateCommand}" CommandParameter="left"><c:Icon Data="{StaticResource IcRotateLeft}" /></Button>
+                  <Button Classes="act" Command="{Binding RotateCommand}" CommandParameter="right"><c:Icon Data="{StaticResource IcRotateRight}" /></Button>
+                  <Button Classes="act" Command="{Binding FlipHCommand}"><c:Icon Data="{StaticResource IcFlip}" /></Button>
+                  <Button Classes="act" Command="{Binding FlipVCommand}"><c:Icon Data="{StaticResource IcFlipV}" /></Button>
+                  <Button Classes="act" Command="{Binding ResetCropCommand}"><c:Icon Data="{StaticResource IcRetry}" /></Button>
+                </UniformGrid>
+              </StackPanel>
+              <!-- İşaretle -->
+              <StackPanel IsVisible="{Binding IsMarkup}" Spacing="6">
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                  <ItemsControl ItemsSource="{Binding Markup.Items}" ItemTemplate="{StaticResource ChipT}" ItemsPanel="{StaticResource RowP}" />
+                </ScrollViewer>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                  <ItemsControl ItemsSource="{Binding Colors.Items}" ItemsPanel="{StaticResource RowP}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="vm:Choice">
+                        <Button Command="{Binding PickCommand}" Width="30" Height="30" CornerRadius="15" Margin="0,0,6,0" Padding="0"
+                                Background="{Binding Label}" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="1" Classes.on="{Binding IsOn}">
+                          <Button.Styles>
+                            <Style Selector="Button.on"><Setter Property="BorderBrush" Value="White" /><Setter Property="BorderThickness" Value="3" /></Style>
+                          </Button.Styles>
+                        </Button>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <Slider Grid.Column="1" Minimum="0.5" Maximum="3" Value="{Binding MarkupSize}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                  <TextBlock Text="{l:T 'Görüntü üzerinde sürükleyerek çizin.'}" FontSize="12" Foreground="{StaticResource NvDimBrush}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                  <Button Grid.Column="1" Classes="chip" Content="{l:T 'Sonuncuyu sil'}" Command="{Binding RemoveLastAnnotationCommand}" />
+                  <Button Grid.Column="2" Classes="chip" Content="{l:T 'Temizle'}" Command="{Binding ClearAnnotationsCommand}" />
+                </Grid>
+              </StackPanel>
+              <!-- Belge -->
+              <StackPanel IsVisible="{Binding IsDocument}" Spacing="6">
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Text="{l:T 'Perspektif düzeltme'}" VerticalAlignment="Center" />
+                  <ToggleSwitch Grid.Column="1" IsChecked="{Binding DocumentPerspective}" OnContent="" OffContent="" />
+                </Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                  <ItemsControl ItemsSource="{Binding Filter.Items}" ItemTemplate="{StaticResource ChipT}" ItemsPanel="{StaticResource RowP}" />
+                </ScrollViewer>
+                <StackPanel Orientation="Horizontal" Spacing="0">
+                  <Button Classes="chip" Content="{l:T 'Kenarları bul'}" Command="{Binding DetectDocumentCommand}" />
+                  <Button Classes="chip" Content="{l:T 'Köşeleri sıfırla'}" Command="{Binding ResetDocumentCommand}" />
+                </StackPanel>
+              </StackPanel>
+            </Panel>
+          </Border>
+          <!-- Araç sekmeleri -->
+          <Border Grid.Row="3" Background="{StaticResource NvPanelBrush}" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="0,1,0,0">
+            <UniformGrid Columns="4">
+              <Button Classes="navb" Classes.on="{Binding IsAdjust}" Command="{Binding Tools.Items[0].PickCommand}"><StackPanel><c:Icon Data="{StaticResource IcSliders}" /><TextBlock Text="{l:T 'Ayarla'}" /></StackPanel></Button>
+              <Button Classes="navb" Classes.on="{Binding IsCrop}" Command="{Binding Tools.Items[1].PickCommand}"><StackPanel><c:Icon Data="{StaticResource IcCrop}" /><TextBlock Text="{l:T 'Kırp'}" /></StackPanel></Button>
+              <Button Classes="navb" Classes.on="{Binding IsMarkup}" Command="{Binding Tools.Items[2].PickCommand}"><StackPanel><c:Icon Data="{StaticResource IcPen}" /><TextBlock Text="{l:T 'İşaretle'}" /></StackPanel></Button>
+              <Button Classes="navb" Classes.on="{Binding IsDocument}" Command="{Binding Tools.Items[3].PickCommand}"><StackPanel><c:Icon Data="{StaticResource IcDocument}" /><TextBlock Text="{l:T 'Belge'}" /></StackPanel></Button>
+            </UniformGrid>
+          </Border>
+          <!-- Metin girişi -->
+          <Panel Grid.RowSpan="4" IsVisible="{Binding IsTextPromptOpen}" Background="#99000000">
+            <Border Classes="card" VerticalAlignment="Top" Margin="20,80,20,0" Padding="16">
+              <StackPanel Spacing="10">
+                <TextBlock Text="{l:T 'Metin ekle'}" FontWeight="SemiBold" />
+                <TextBox x:Name="EditTextBox" Text="{Binding TextInput}" Watermark="{l:T 'Görüntüye yazılacak metin'}" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                  <Button Content="{l:T 'İptal'}" Command="{Binding CancelTextCommand}" />
+                  <Button Classes="primary" Content="{l:T 'Ekle'}" Command="{Binding ConfirmTextCommand}" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+          </Panel>
+        </Grid>
+      </Panel>
+    </Panel>
+
+    <!-- ============ Meşgul ============ -->
+    <Panel IsVisible="{Binding IsBusy}" Background="#B3000000">
+      <Border Classes="card" VerticalAlignment="Center" Margin="36" Padding="20">
+        <StackPanel Spacing="12">
+          <TextBlock Text="{Binding BusyText}" FontWeight="SemiBold" TextWrapping="Wrap" />
+          <ProgressBar Value="{Binding BusyProgress}" Maximum="100" Height="6" />
+          <Button Content="{l:T 'İptal'}" Command="{Binding CancelBusyCommand}" HorizontalAlignment="Right" />
+        </StackPanel>
+      </Border>
+    </Panel>
+
+    <!-- ============ Bildirim ============ -->
+    <Border IsVisible="{Binding ToastText, Converter={x:Static ObjectConverters.IsNotNull}}" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+            Margin="20,0,20,150" Padding="16,10" CornerRadius="12" Background="{StaticResource NvSurfaceHiBrush}"
+            BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="1" BoxShadow="0 4 16 0 #A0000000" IsHitTestVisible="False">
+      <TextBlock Text="{Binding ToastText}" TextWrapping="Wrap" />
+    </Border>
+  </Panel>
+</UserControl>

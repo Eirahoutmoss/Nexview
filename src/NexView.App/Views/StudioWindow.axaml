@@ -1,0 +1,313 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="using:NexView.UI.Controls"
+        xmlns:l="using:NexView.UI.Localization"
+        xmlns:vm="using:NexView.App.ViewModels"
+        x:Class="NexView.App.Views.StudioWindow"
+        x:DataType="vm:StudioViewModel"
+        Title="NexView Stüdyo"
+        Icon="/Assets/nexview.ico"
+        Width="1380" Height="880" MinWidth="1040" MinHeight="680"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource NvBgBrush}">
+  <Window.Styles>
+    <Style Selector="ListBox.kinds">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="ListBox.kinds ListBoxItem">
+      <Setter Property="Padding" Value="18,9" />
+      <Setter Property="Margin" Value="0,0,6,0" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Background" Value="{StaticResource NvSurfaceBrush}" />
+    </Style>
+    <Style Selector="ListBox.kinds ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource NvPrimaryBrush}" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Border.frame">
+      <Setter Property="Background" Value="{StaticResource NvSurfaceBrush}" />
+      <Setter Property="BorderBrush" Value="{StaticResource NvBorderBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="10" />
+      <Setter Property="Width" Value="176" />
+      <Setter Property="Margin" Value="0,0,8,0" />
+      <Setter Property="Padding" Value="6" />
+    </Style>
+    <Style Selector="Border.frame.off">
+      <Setter Property="Opacity" Value="0.45" />
+    </Style>
+    <Style Selector="Button.tiny">
+      <Setter Property="Padding" Value="6,2" />
+      <Setter Property="MinWidth" Value="26" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+  </Window.Styles>
+
+  <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="340,*">
+    <!-- Üst çubuk -->
+    <Border Grid.ColumnSpan="2" Background="{StaticResource NvPanelBrush}" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="0,0,0,1" Padding="16,10">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <Image Source="/Assets/nexview-mark.png" Width="28" Height="28" />
+          <StackPanel>
+            <TextBlock Text="NexView Stüdyo" FontSize="16" FontWeight="SemiBold" />
+            <TextBlock Text="{l:T 'Çoklu çekim birleştirme'}" Classes="label" FontSize="11" />
+          </StackPanel>
+        </StackPanel>
+        <ListBox Grid.Column="1" Classes="kinds" ItemsSource="{Binding Kinds}" SelectedItem="{Binding Kind}" HorizontalAlignment="Center"
+                 IsEnabled="{Binding IsIdle}">
+          <ListBox.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ListBox.ItemsPanel>
+          <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioKindItem"><TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" /></DataTemplate></ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+          <Button Classes="ghost" Command="{Binding AddFilesCommand}" IsEnabled="{Binding IsIdle}">
+            <StackPanel Orientation="Horizontal" Spacing="8"><c:Icon Data="{StaticResource IcOpen}" Width="16" Height="16" /><TextBlock Text="{l:T 'Kare ekle'}" /></StackPanel>
+          </Button>
+          <Button Classes="ghost" Command="{Binding ClearCommand}" IsEnabled="{Binding IsIdle}" Content="{l:T 'Temizle'}" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- Sol: rehber, uyarılar, ayarlar -->
+    <Border Grid.Row="1" Grid.RowSpan="2" Background="{StaticResource NvPanelBrush}" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="0,0,1,0">
+      <DockPanel>
+        <Border DockPanel.Dock="Bottom" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="0,1,0,0" Padding="14">
+          <StackPanel Spacing="8">
+            <Button Classes="ghost" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding PreviewCommand}"
+                    IsVisible="{Binding CanPreview}" IsEnabled="{Binding IsIdle}">
+              <StackPanel Orientation="Horizontal" Spacing="8"><c:Icon Data="{StaticResource IcRetry}" Width="16" Height="16" /><TextBlock Text="{l:T 'Hızlı önizleme'}" /></StackPanel>
+            </Button>
+            <Button Classes="primary" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Command="{Binding RenderCommand}" IsEnabled="{Binding IsIdle}">
+              <StackPanel Orientation="Horizontal" Spacing="8"><c:Icon Data="{StaticResource IcLayers}" Foreground="White" Width="16" Height="16" /><TextBlock Text="{Binding RenderText}" /></StackPanel>
+            </Button>
+          </StackPanel>
+        </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Margin="14" Spacing="12" IsEnabled="{Binding CanEdit}">
+            <Border Classes="card" Padding="12,10">
+              <StackPanel Spacing="6">
+                <TextBlock Text="{l:T 'Çekim rehberi'}" Classes="h" />
+                <TextBlock Text="{Binding Kind.Guide}" Classes="label" TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+
+            <Border Classes="card" Padding="12,10" IsVisible="{Binding CanPreview}">
+              <StackPanel Spacing="4">
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Text="{l:T 'Canlı önizleme'}" Classes="h" VerticalAlignment="Center" />
+                  <ToggleSwitch Grid.Column="1" IsChecked="{Binding LivePreview}" OnContent="" OffContent="" MinWidth="0" />
+                </Grid>
+                <TextBlock Classes="label" FontSize="11" TextWrapping="Wrap"
+                           Text="{l:T 'Bir ayarı değiştirdiğiniz anda sonuç düşük çözünürlükte yeniden hesaplanır; etkisini doğrudan görürsünüz. Daha fazla işlemci gücü kullanır: çok sayıda ya da büyük karede bilgisayar ağırlaşabilir.'}" />
+              </StackPanel>
+            </Border>
+
+            <Border Classes="warning" IsVisible="{Binding HasWarnings}" Padding="12,10">
+              <ItemsControl ItemsSource="{Binding Warnings}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="x:String">
+                    <Grid ColumnDefinitions="Auto,*" Margin="0,2">
+                      <c:Icon Data="{StaticResource IcWarning}" Width="14" Height="14" Foreground="{StaticResource NvWarnBrush}" VerticalAlignment="Top" Margin="0,2,8,0" />
+                      <TextBlock Grid.Column="1" Text="{Binding}" TextWrapping="Wrap" FontSize="12" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Border>
+
+            <!-- Makro -->
+            <Border Classes="card" IsVisible="{Binding IsMacro}">
+              <StackPanel Spacing="8">
+                <TextBlock Text="{l:T 'Birleştirme yöntemi'}" Classes="h" />
+                <ListBox Classes="chips" ItemsSource="{Binding MacroMethods}" SelectedItem="{Binding SelMacro}">
+                  <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioOption"><TextBlock Text="{Binding Name}" FontSize="12" /></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock Classes="label" FontSize="11" TextWrapping="Wrap"
+                           Text="{l:T 'Karma: ince doku piramitten, ton ve geçişler derinlik haritasından alınır; çoğu çekim için en iyisi. Ayrıntı: en keskin sonuç, haleye açık. Pürüzsüz: en temiz geçiş, ürün ve parlak yüzeyler için.'}" />
+                <TextBlock Text="{l:T 'Hale bastırma (Karma)'}" Classes="label" />
+                <Slider Minimum="0" Maximum="1" Value="{Binding HaloSuppression}"
+                        ToolTip.Tip="{l:T 'Net kenarların çevresindeki parlak/karanlık gölgeleri azaltır. Yükseldikçe geçişler temizleşir, en ince doku biraz yumuşar.'}" />
+                <TextBlock Text="{l:T 'Geçiş yumuşaklığı (Karma ve Pürüzsüz)'}" Classes="label" />
+                <Slider Minimum="1" Maximum="10" Value="{Binding Smoothness}"
+                        ToolTip.Tip="{l:T 'Netlik kararlarının ne kadar geniş bölgede verileceği. Yükseldikçe lekelenme azalır, çok küçük ayrıntılarda seçim kabalaşır.'}" />
+              </StackPanel>
+            </Border>
+
+            <!-- HDR -->
+            <Border Classes="card" IsVisible="{Binding IsHdr}">
+              <StackPanel Spacing="8">
+                <TextBlock Text="{l:T 'Görünüm'}" Classes="h" />
+                <ListBox Classes="chips" ItemsSource="{Binding HdrStyles}" SelectedItem="{Binding SelHdr}">
+                  <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioOption"><TextBlock Text="{Binding Name}" FontSize="12" /></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock Classes="label" FontSize="11" TextWrapping="Wrap"
+                           Text="{l:T 'Doğal: gözün gördüğüne yakın. Canlı: daha doygun renk ve yerel kontrast. Dramatik: güçlü ayrıntı ve kontrast, mimari ve bulutlu gökyüzü için.'}" />
+                <CheckBox Content="{l:T 'Hayalet giderme'}" IsChecked="{Binding Deghost}"
+                          ToolTip.Tip="{l:T 'Kareler arasında hareket eden insan, araç, yaprak gibi nesnelerin yarı saydam çift görüntü bırakmasını önler; bu bölgelerde orta pozlamalı kare kullanılır.'}" />
+                <Button Classes="ghost" FontSize="12" Padding="10,5" Content="{l:T 'Kareleri pozlamaya göre sırala'}" Command="{Binding SortByExposureCommand}" />
+              </StackPanel>
+            </Border>
+
+            <!-- Panorama -->
+            <Border Classes="card" IsVisible="{Binding IsPano}">
+              <StackPanel Spacing="8">
+                <TextBlock Text="{l:T 'İzdüşüm'}" Classes="h" />
+                <ListBox Classes="chips" ItemsSource="{Binding PanoModes}" SelectedItem="{Binding SelPano}">
+                  <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioOption"><TextBlock Text="{Binding Name}" FontSize="12" /></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock Classes="label" FontSize="11" TextWrapping="Wrap"
+                           Text="{l:T 'Küresel izdüşüm, görüntüyü kürenin iç yüzeyine yerleştirip düz bir haritaya açar; çıktı düzdür ama 360° görüntüleyicide küre içinden gezilir. Dosyaya 360° fotoğraf bilgisi (GPano) yazılır.'}" />
+                <TextBlock Text="{l:T 'Sonuç'}" Classes="label" />
+                <ListBox Classes="chips" ItemsSource="{Binding PanoOutputs}" SelectedItem="{Binding SelPanoOut}">
+                  <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioOption"><TextBlock Text="{Binding Name}" FontSize="12" /></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel Spacing="6" IsVisible="{Binding IsPlanet}">
+                  <TextBlock Classes="label" FontSize="11" TextWrapping="Wrap"
+                             Text="{l:T 'Küçük gezegen: zemin ortada, ufuk bir daire olur. Tünel: gökyüzü ortada. En iyi sonuç tam 360° panoramalarda alınır.'}" />
+                  <TextBlock Text="{l:T 'Görüş genişliği'}" Classes="label" />
+                  <Slider Minimum="1" Maximum="8" Value="{Binding PlanetZoom}" />
+                  <TextBlock Text="{l:T 'Döndürme'}" Classes="label" />
+                  <Slider Minimum="-180" Maximum="180" Value="{Binding PlanetRotation}" />
+                </StackPanel>
+                <CheckBox Content="{l:T 'Ufuk düzeltme (dalga düzeltme)'}" IsChecked="{Binding WaveCorrection}"
+                          ToolTip.Tip="{l:T 'Elde çekimde oluşan dalgalı ya da eğik ufku düzleştirir.'}" />
+                <TextBlock Text="{l:T 'Eşleşme güven eşiği'}" Classes="label" />
+                <Slider Minimum="0.3" Maximum="1.5" Value="{Binding Confidence}" />
+                <TextBlock Classes="label" FontSize="11" TextWrapping="Wrap" Text="{l:T 'Kareler eşleşmiyorsa eşiği düşürün; yanlış eşleşme oluyorsa yükseltin.'}" />
+              </StackPanel>
+            </Border>
+
+            <!-- Astro -->
+            <Border Classes="card" IsVisible="{Binding IsAstro}">
+              <StackPanel Spacing="8">
+                <TextBlock Text="{l:T 'Yöntem'}" Classes="h" />
+                <ListBox Classes="chips" ItemsSource="{Binding AstroModes}" SelectedItem="{Binding SelAstro}">
+                  <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioOption"><TextBlock Text="{Binding Name}" FontSize="12" /></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+              </StackPanel>
+            </Border>
+
+            <!-- Genel -->
+            <Border Classes="card">
+              <StackPanel Spacing="8">
+                <TextBlock Text="{l:T 'Çıktı'}" Classes="h" />
+                <CheckBox Content="{l:T 'Kareleri otomatik hizala'}" IsChecked="{Binding Align}" IsVisible="{Binding !IsPano}" />
+                <CheckBox Content="{l:T 'Boş ve eksik kenarları kırp'}" IsChecked="{Binding CropToCommon}" IsVisible="{Binding !IsAstro}" />
+                <TextBlock Text="{l:T 'Son işleme çözünürlüğü'}" Classes="label" IsVisible="{Binding !IsAstro}" />
+                <ListBox Classes="chips" ItemsSource="{Binding Resolutions}" SelectedItem="{Binding Resolution}" IsVisible="{Binding !IsAstro}">
+                  <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioOption"><TextBlock Text="{Binding Name}" FontSize="12" /></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <TextBlock Text="{l:T 'Dosya biçimi'}" Classes="label" />
+                <ListBox Classes="chips" ItemsSource="{Binding Outputs}" SelectedItem="{Binding Output}">
+                  <ListBox.ItemsPanel><ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate></ListBox.ItemsPanel>
+                  <ListBox.ItemTemplate><DataTemplate x:DataType="vm:StudioOption"><TextBlock Text="{Binding Name}" FontSize="12" /></DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <CheckBox Content="{l:T 'Bitince görüntüleyicide aç'}" IsChecked="{Binding OpenWhenDone}" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+      </DockPanel>
+    </Border>
+
+    <!-- Orta: önizleme -->
+    <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="Auto,*,Auto">
+      <Grid ColumnDefinitions="*,Auto" Margin="14,10,14,6">
+        <TextBlock Text="{Binding PreviewState}" Classes="label" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" IsVisible="{Binding HasPreview}">
+          <ToggleButton Content="{l:T 'Önce / sonra'}" IsChecked="{Binding CompareOn}" Padding="12,5" FontSize="12" />
+          <Slider Width="180" Minimum="0" Maximum="1" Value="{Binding SplitPosition}" IsVisible="{Binding CompareOn}" VerticalAlignment="Center" />
+        </StackPanel>
+      </Grid>
+      <Border Grid.Row="1" Margin="14,0,14,10" CornerRadius="12" ClipToBounds="True" Background="#05080F" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="1">
+        <Panel>
+          <c:ImageViewport Source="{Binding PreviewBitmap}" CompareSource="{Binding CompareBitmap}" SplitPosition="{Binding SplitPosition}" />
+          <StackPanel IsVisible="{Binding !HasPreview}" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="460">
+            <c:Icon Data="{StaticResource IcLayers}" Width="44" Height="44" Foreground="{StaticResource NvDimBrush}" HorizontalAlignment="Center" />
+            <TextBlock Text="{l:T 'Kareleri ekleyin, türü seçin ve hızlı önizleme alın.'}" HorizontalAlignment="Center" FontSize="15" TextAlignment="Center" TextWrapping="Wrap" />
+            <TextBlock Text="{l:T 'Önizleme küçük çözünürlükte saniyeler içinde hazırlanır; beğendiğinizde son işlemeyi başlatın.'}" Classes="label" TextAlignment="Center" TextWrapping="Wrap" />
+          </StackPanel>
+          <ProgressBar IsVisible="{Binding IsBusy}" VerticalAlignment="Top" Minimum="0" Maximum="1" Value="{Binding Progress}" Height="3" MinHeight="3"
+                       Foreground="{StaticResource NvCyanBrush}" Background="Transparent" />
+          <Border IsVisible="{Binding ShowOverlay}" Background="#C0060A14">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="380" Spacing="10">
+              <TextBlock Text="{Binding StageText}" FontWeight="SemiBold" HorizontalAlignment="Center" />
+              <ProgressBar Minimum="0" Maximum="1" Value="{Binding Progress}" Height="6" MinHeight="6" Foreground="{StaticResource NvCyanBrush}" />
+              <Button Classes="ghost" HorizontalAlignment="Center" Content="{l:T 'İptal'}" Command="{Binding CancelCommand}" />
+            </StackPanel>
+          </Border>
+        </Panel>
+      </Border>
+      <!-- Sonuç ve notlar -->
+      <StackPanel Grid.Row="2" Margin="14,0,14,10" Spacing="4">
+        <Grid ColumnDefinitions="*,Auto" IsVisible="{Binding ResultText, Converter={x:Static ObjectConverters.IsNotNull}}">
+          <TextBlock Text="{Binding ResultText}" FontWeight="SemiBold" TextWrapping="Wrap" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+            <Button Classes="primary" FontSize="12" Padding="12,5" Content="{Binding View360Text}" Command="{Binding Open360Command}" IsVisible="{Binding CanView360}" />
+            <Button Classes="ghost" FontSize="12" Padding="10,5" Content="{l:T 'Klasörde göster'}" Command="{Binding ShowInFolderCommand}" IsVisible="{Binding HasResult}" />
+          </StackPanel>
+        </Grid>
+        <ItemsControl ItemsSource="{Binding Notes}" IsVisible="{Binding HasNotes}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="x:String"><TextBlock Text="{Binding}" Foreground="{StaticResource NvWarnBrush}" FontSize="11.5" TextWrapping="Wrap" /></DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </StackPanel>
+    </Grid>
+
+    <!-- Alt: kare şeridi -->
+    <Border Grid.Row="2" Grid.Column="1" BorderBrush="{StaticResource NvBorderBrush}" BorderThickness="0,1,0,0" Background="{StaticResource NvPanelBrush}">
+      <DockPanel>
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="14,8,14,4">
+          <TextBlock Text="{Binding FrameCountText}" Classes="label" VerticalAlignment="Center" />
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+            <Button Classes="ghost" FontSize="11.5" Padding="8,3" Content="{l:T 'Çekim zamanına göre sırala'}" Command="{Binding SortByTimeCommand}" IsEnabled="{Binding IsIdle}" />
+          </StackPanel>
+        </Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Height="196">
+          <ItemsControl ItemsSource="{Binding Frames}" Margin="14,0,14,10" IsEnabled="{Binding CanEdit}">
+            <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" /></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:StudioFrame">
+                <Border Classes="frame" Classes.off="{Binding !Include}">
+                  <StackPanel Spacing="4">
+                    <Panel Height="104">
+                      <Border CornerRadius="6" ClipToBounds="True" Background="#05080F">
+                        <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                      </Border>
+                      <Border Background="#C0060A14" CornerRadius="4" Padding="5,1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4">
+                        <TextBlock Text="{Binding Index}" FontSize="11" FontWeight="SemiBold" />
+                      </Border>
+                      <Border Background="{StaticResource NvPrimaryBrush}" CornerRadius="4" Padding="5,1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="4"
+                              IsVisible="{Binding Badge, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                        <TextBlock Text="{Binding Badge}" FontSize="11" Foreground="White" />
+                      </Border>
+                    </Panel>
+                    <TextBlock Text="{Binding Name}" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{Binding Info}" Classes="label" FontSize="10.5" TextTrimming="CharacterEllipsis" />
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                      <CheckBox IsChecked="{Binding Include}" Content="{l:T 'Kullan'}" FontSize="11" MinHeight="22" Padding="4,0" />
+                      <Button Grid.Column="1" Classes="tiny" Content="◀" ToolTip.Tip="{l:T 'Sola taşı'}"
+                              Command="{Binding $parent[ItemsControl].((vm:StudioViewModel)DataContext).MoveLeftCommand}" CommandParameter="{Binding}" />
+                      <Button Grid.Column="2" Classes="tiny" Content="▶" ToolTip.Tip="{l:T 'Sağa taşı'}"
+                              Command="{Binding $parent[ItemsControl].((vm:StudioViewModel)DataContext).MoveRightCommand}" CommandParameter="{Binding}" />
+                      <Button Grid.Column="3" Classes="tiny" Content="✕" ToolTip.Tip="{l:T 'Kaldır'}"
+                              Command="{Binding $parent[ItemsControl].((vm:StudioViewModel)DataContext).RemoveCommand}" CommandParameter="{Binding}" />
+                    </Grid>
+                  </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </DockPanel>
+    </Border>
+  </Grid>
+</Window>

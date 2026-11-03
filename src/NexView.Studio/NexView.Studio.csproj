@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Stüdyo motoru (masaüstü): OpenCV ile makro odak birleştirme, HDR ve panorama -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>NexView.Studio</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="OpenCvSharp4" Version="4.10.*" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NexView.Core\NexView.Core.csproj" />
+  </ItemGroup>
+</Project>
